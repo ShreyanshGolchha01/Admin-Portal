@@ -27,7 +27,7 @@ const Users: React.FC = () => {
     
     return (
       <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-        <h4 className="text-sm font-medium text-gray-900 mb-3">Health Records Timeline</h4>
+        <h4 className="text-sm font-medium text-gray-900 mb-3">स्वास्थ्य रिकॉर्ड समयरेखा</h4>
         {healthRecords.length > 0 ? (
           <div className="space-y-3">
             {healthRecords.map((record) => (
@@ -52,7 +52,7 @@ const Users: React.FC = () => {
             ))}
           </div>
         ) : (
-          <p className="text-sm text-gray-500">No health records available</p>
+          <p className="text-sm text-gray-500">कोई स्वास्थ्य रिकॉर्ड उपलब्ध नहीं है</p>
         )}
       </div>
     );
@@ -363,7 +363,7 @@ const Users: React.FC = () => {
               <UsersIcon className="h-6 w-6 text-blue-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Total Employees</p>
+              <p className="text-sm font-medium text-gray-600">कुल कर्मचारी</p>
               <p className="text-2xl font-bold text-gray-900">{mockUsers.length}</p>
             </div>
           </div>
@@ -389,7 +389,7 @@ const Users: React.FC = () => {
               <Calendar className="h-6 w-6 text-purple-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Health Records</p>
+              <p className="text-sm font-medium text-gray-600">स्वास्थ्य रिकार्ड</p>
               <p className="text-2xl font-bold text-gray-900">{mockHealthRecords.length}</p>
             </div>
           </div>
@@ -401,7 +401,7 @@ const Users: React.FC = () => {
               <UsersIcon className="h-6 w-6 text-orange-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Admins</p>
+              <p className="text-sm font-medium text-gray-600">व्यवस्थापक</p>
               <p className="text-2xl font-bold text-gray-900">
                 {mockUsers.filter(user => user.role === 'admin').length}
               </p>
@@ -416,36 +416,36 @@ const Users: React.FC = () => {
       {/* Health Overview */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="card">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Health Status Overview</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">स्वास्थ्य स्थिति अवलोकन</h3>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Normal BP</span>
+              <span className="text-sm text-gray-600">सामान्य बी.पी</span>
               <span className="text-sm font-medium text-green-600">75%</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">High BP</span>
+              <span className="text-sm text-gray-600">हाई बी.पी</span>
               <span className="text-sm font-medium text-yellow-600">20%</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Very High BP</span>
+              <span className="text-sm text-gray-600">बहुत हाई बीपी</span>
               <span className="text-sm font-medium text-red-600">5%</span>
             </div>
           </div>
         </div>
 
         <div className="card">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Sugar Level Status</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">शुगर लेवल की स्थिति</h3>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Normal</span>
+              <span className="text-sm text-gray-600">सामान्य</span>
               <span className="text-sm font-medium text-green-600">70%</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Pre-diabetic</span>
+              <span className="text-sm text-gray-600">पूर्व मधुमेह</span>
               <span className="text-sm font-medium text-yellow-600">25%</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Diabetic</span>
+              <span className="text-sm text-gray-600">मधुमेह</span>
               <span className="text-sm font-medium text-red-600">5%</span>
             </div>
           </div>
