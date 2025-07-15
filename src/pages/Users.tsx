@@ -78,14 +78,9 @@ const Users: React.FC = () => {
     },
     {
       key: 'name',
-      label: 'Employee',
+      label: 'कर्मचारी',
       render: (value, row) => (
         <div className="flex items-center">
-          <img
-            className="h-10 w-10 rounded-full object-cover"
-            src={row.avatar || `https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face`}
-            alt={value}
-          />
           <div className="ml-4">
             <p className="font-medium text-gray-900">{value}</p>
             <p className="text-sm text-gray-500">{row.employeeId}</p>
@@ -95,7 +90,7 @@ const Users: React.FC = () => {
     },
     {
       key: 'department',
-      label: 'Department',
+      label: 'विभाग',
       render: (value) => (
         <div className="flex items-center">
           <Building className="h-4 w-4 text-gray-400 mr-2" />
@@ -105,77 +100,25 @@ const Users: React.FC = () => {
     },
     {
       key: 'joiningDate',
-      label: 'Joining Date',
+      label: 'कार्यग्रहण तिथि',
       render: (value) => (
         <div className="flex items-center">
           <Calendar className="h-4 w-4 text-gray-400 mr-2" />
           <span className="text-gray-900">
-            {value ? new Date(value).toLocaleDateString('en-IN') : 'N/A'}
+            {value ? new Date(value).toLocaleDateString('en-IN') : 'लागू नहीं'}
           </span>
         </div>
       ),
     },
     {
       key: 'phone',
-      label: 'Contact',
+      label: 'संपर्क',
       render: (value, row) => (
         <div className="space-y-1">
           <p className="text-sm text-gray-900">{value}</p>
           <p className="text-sm text-gray-500">{row.email}</p>
         </div>
       ),
-    },
-    {
-      key: 'role',
-      label: 'Role',
-      render: (value) => (
-        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-          value === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'
-        }`}>
-          {value.charAt(0).toUpperCase() + value.slice(1)}
-        </span>
-      ),
-    },
-    {
-      key: 'healthStatus',
-      label: 'Health Status',
-      sortable: false,
-      render: (_, row) => {
-        const healthRecords = getUserHealthRecords(row.id);
-        const latestRecord = healthRecords[0];
-        
-        if (!latestRecord) {
-          return <span className="text-xs text-gray-400">No records</span>;
-        }
-
-        const getBPStatus = (systolic: number, diastolic: number) => {
-          if (systolic < 120 && diastolic < 80) return { status: 'Normal', color: 'green' };
-          if (systolic < 140 || diastolic < 90) return { status: 'High', color: 'yellow' };
-          return { status: 'Very High', color: 'red' };
-        };
-
-        const getSugarStatus = (sugar: number) => {
-          if (sugar < 100) return { status: 'Normal', color: 'green' };
-          if (sugar < 126) return { status: 'Pre-diabetic', color: 'yellow' };
-          return { status: 'Diabetic', color: 'red' };
-        };
-
-        const bpStatus = getBPStatus(latestRecord.bloodPressure.systolic, latestRecord.bloodPressure.diastolic);
-        const sugarStatus = getSugarStatus(latestRecord.sugarLevel);
-
-        return (
-          <div className="space-y-1">
-            <div className="flex items-center space-x-2">
-              <div className={`w-2 h-2 rounded-full bg-${bpStatus.color}-500`}></div>
-              <span className="text-xs text-gray-600">BP: {bpStatus.status}</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className={`w-2 h-2 rounded-full bg-${sugarStatus.color}-500`}></div>
-              <span className="text-xs text-gray-600">Sugar: {sugarStatus.status}</span>
-            </div>
-          </div>
-        );
-      },
     },
     {
       key: 'actions',
@@ -197,7 +140,36 @@ const Users: React.FC = () => {
   const EnhancedDataTable: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
+    const [showRegistrationForm, setShowRegistrationForm] = useState(false);
+    const [formData, setFormData] = useState({
+      name: '',
+      employeeId: '',
+      email: '',
+      phone: '',
+      department: '',
+      joiningDate: '',
+    });
     const itemsPerPage = 10;
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      const { name, value } = e.target;
+      setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
+      console.log('Form submitted:', formData);
+      // Here you would typically make an API call to save the user
+      setFormData({
+        name: '',
+        employeeId: '',
+        email: '',
+        phone: '',
+        department: '',
+        joiningDate: '',
+      });
+      setShowRegistrationForm(false);
+    };
 
     const filteredData = mockUsers.filter((user) =>
       Object.values(user).some((value) =>
@@ -212,15 +184,92 @@ const Users: React.FC = () => {
 
     return (
       <div className="bg-white rounded-2xl shadow-sm border border-gray-200">
-        {/* Search Bar */}
+        {/* User Registration Section */}
         <div className="p-6 border-b border-gray-200">
-          <input
-            type="text"
-            placeholder="Search users..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full max-w-md input-field"
-          />
+          <div className="flex items-center justify-between mb-4">
+            <button
+              onClick={() => setShowRegistrationForm(!showRegistrationForm)}
+              className="btn-primary"
+            >
+              {showRegistrationForm ? 'फॉर्म बंद करें' : 'नया कर्मचारी जोड़ें'}
+            </button>
+            <input
+              type="text"
+              placeholder="कर्मचारी खोजें..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full max-w-md input-field ml-4"
+            />
+          </div>
+
+          {/* Collapsible Registration Form */}
+          {showRegistrationForm && (
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4 p-4 bg-gray-50 rounded-lg">
+              <input
+                type="text"
+                placeholder="नाम"
+                className="input-field"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                required
+              />
+              <input
+                type="text"
+                placeholder="कर्मचारी आईडी"
+                className="input-field"
+                name="employeeId"
+                value={formData.employeeId}
+                onChange={handleInputChange}
+                required
+              />
+              <input
+                type="email"
+                placeholder="ईमेल"
+                className="input-field"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+              />
+              <input
+                type="tel"
+                placeholder="फोन नंबर"
+                className="input-field"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                required
+              />
+              <select
+                className="input-field"
+                name="department"
+                value={formData.department}
+                onChange={handleInputChange}
+                required
+              >
+                <option value="">विभाग चुनें</option>
+                <option value="IT">आईटी</option>
+                <option value="HR">एचआर</option>
+                <option value="Finance">वित्त</option>
+                <option value="Operations">परिचालन</option>
+              </select>
+              <input
+                type="date"
+                placeholder="कार्यग्रहण तिथि"
+                className="input-field"
+                name="joiningDate"
+                value={formData.joiningDate}
+                onChange={handleInputChange}
+                required
+              />
+              <div className="col-span-full flex justify-end">
+                <button type="submit" className="btn-primary">
+                  कर्मचारी जोड़ें
+                </button>
+              </div>
+            </form>
+          )}
         </div>
 
         {/* Table */}
@@ -265,7 +314,7 @@ const Users: React.FC = () => {
         {totalPages > 1 && (
           <div className="flex items-center justify-between px-6 py-3 bg-white border-t border-gray-200">
             <span className="text-sm text-gray-700">
-              Showing {startIndex + 1} to {Math.min(endIndex, filteredData.length)} of {filteredData.length} results
+              {filteredData.length} परिणामों में से {startIndex + 1} से {Math.min(endIndex, filteredData.length)} दिखा रहे हैं
             </span>
             <div className="flex space-x-2">
               <button
@@ -273,17 +322,17 @@ const Users: React.FC = () => {
                 disabled={currentPage === 1}
                 className="px-3 py-1 text-sm border rounded disabled:opacity-50"
               >
-                Previous
+                पिछला
               </button>
               <span className="px-3 py-1 text-sm">
-                Page {currentPage} of {totalPages}
+                पृष्ठ {currentPage} कुल {totalPages} का
               </span>
               <button
                 onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
                 className="px-3 py-1 text-sm border rounded disabled:opacity-50"
               >
-                Next
+                अगला
               </button>
             </div>
           </div>
@@ -297,8 +346,8 @@ const Users: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Users & Health Records</h1>
-          <p className="text-gray-600">View employee health records and family data</p>
+          <h1 className="text-2xl font-bold text-gray-900">उपयोगकर्ता और स्वास्थ्य रिकॉर्ड</h1>
+          <p className="text-gray-600">कर्मचारी स्वास्थ्य रिकॉर्ड और परिवार का डेटा देखें</p>
         </div>
         <button className="btn-primary flex items-center space-x-2">
           <Download className="h-4 w-4" />

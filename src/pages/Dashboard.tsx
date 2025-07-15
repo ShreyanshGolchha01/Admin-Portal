@@ -53,7 +53,7 @@ const Dashboard: React.FC = () => {
           <div className="hidden md:flex items-center space-x-2">
             <Calendar className="h-5 w-5 text-blue-200" />
             <span className="text-blue-100">
-              {new Date().toLocaleDateString('en-IN', {
+              {new Date().toLocaleDateString('hi-IN', {
                 weekday: 'long',
                 year: 'numeric',
                 month: 'long',
@@ -118,7 +118,7 @@ const Dashboard: React.FC = () => {
               <LineChart data={mockChartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis 
-                  dataKey="month" 
+                  dataKey="महीना" 
                   axisLine={false}
                   tickLine={false}
                   tick={{ fontSize: 12, fill: '#6b7280' }}
@@ -127,6 +127,7 @@ const Dashboard: React.FC = () => {
                   axisLine={false}
                   tickLine={false}
                   tick={{ fontSize: 12, fill: '#6b7280' }}
+                  label={{ value: 'संख्या', angle: -90, position: 'insideLeft' }}
                 />
                 <Tooltip
                   contentStyle={{
@@ -138,7 +139,7 @@ const Dashboard: React.FC = () => {
                 />
                 <Line
                   type="monotone"
-                  dataKey="camps"
+                  dataKey="शिविर"
                   stroke="#0E7DFF"
                   strokeWidth={3}
                   dot={{ fill: '#0E7DFF', strokeWidth: 2, r: 4 }}
@@ -146,7 +147,7 @@ const Dashboard: React.FC = () => {
                 />
                 <Line
                   type="monotone"
-                  dataKey="beneficiaries"
+                  dataKey="लाभार्थी"
                   stroke="#10b981"
                   strokeWidth={3}
                   dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}

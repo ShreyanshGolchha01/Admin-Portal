@@ -200,7 +200,7 @@ This project is developed for government health services and educational purpose
 
 ---
 
-**Powered by SSIPMT, RAIPUR | Version 1.0.0**
+**Powered by Shri Shankaracharya Institute of Professional Management and Technology, Raipur | Version 1.0.0**
 
 *For support and queries, please contact the development team.*
   {

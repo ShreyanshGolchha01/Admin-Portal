@@ -32,7 +32,7 @@ const Doctors: React.FC = () => {
       experience: parseInt(formData.experience),
       qualification: formData.qualification,
       assignedCamps: formData.assignedCamps,
-      avatar: `https://images.unsplash.com/photo-${Math.random() > 0.5 ? '1612349317150-e413f6a5b16d' : '1559839734-2b71ea197ec2'}?w=100&h=100&fit=crop&crop=face`,
+      
     };
 
     setDoctors([...doctors, newDoctor]);
@@ -98,14 +98,10 @@ const Doctors: React.FC = () => {
   const columns: TableColumn[] = [
     {
       key: 'name',
-      label: 'Doctor',
+      label: 'चिकित्सक',
       render: (value, row) => (
         <div className="flex items-center">
-          <img
-            className="h-10 w-10 rounded-full object-cover"
-            src={row.avatar || `https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=100&h=100&fit=crop&crop=face`}
-            alt={value}
-          />
+          
           <div className="ml-4">
             <p className="font-medium text-gray-900">{value}</p>
             <p className="text-sm text-gray-500">{row.qualification}</p>
@@ -115,7 +111,7 @@ const Doctors: React.FC = () => {
     },
     {
       key: 'specialty',
-      label: 'Specialty',
+      label: 'विशेषज्ञता',
       render: (value) => (
         <div className="flex items-center">
           <Stethoscope className="h-4 w-4 text-gray-400 mr-2" />
@@ -125,17 +121,17 @@ const Doctors: React.FC = () => {
     },
     {
       key: 'experience',
-      label: 'Experience',
+      label: 'अनुभव',
       render: (value) => (
         <div className="flex items-center">
           <Award className="h-4 w-4 text-gray-400 mr-2" />
-          <span className="text-gray-900">{value} years</span>
+          <span className="text-gray-900">{value} वर्ष</span>
         </div>
       ),
     },
     {
       key: 'phone',
-      label: 'Contact',
+      label: 'संपर्क',
       render: (value, row) => (
         <div className="space-y-1">
           <div className="flex items-center">
@@ -151,7 +147,7 @@ const Doctors: React.FC = () => {
     },
     {
       key: 'assignedCamps',
-      label: 'Assigned Camps',
+      label: 'नियुक्त शिविर',
       sortable: false,
       render: (value: string[]) => (
         <div className="space-y-1">
@@ -164,17 +160,17 @@ const Doctors: React.FC = () => {
             ) : null;
           })}
           {value.length > 2 && (
-            <p className="text-xs text-gray-500">+{value.length - 2} more</p>
+            <p className="text-xs text-gray-500">+{value.length - 2} और</p>
           )}
           {value.length === 0 && (
-            <span className="text-xs text-gray-400">Not assigned</span>
+            <span className="text-xs text-gray-400">नियुक्त नहीं</span>
           )}
         </div>
       ),
     },
     {
       key: 'actions',
-      label: 'Actions',
+      label: 'कार्य',
       sortable: false,
       render: (_, row) => (
         <div className="flex items-center space-x-2">
@@ -199,16 +195,16 @@ const Doctors: React.FC = () => {
   ];
 
   const specialties = [
-    'General Medicine',
-    'Cardiology',
-    'Orthopedics',
-    'Gynecology',
-    'Pediatrics',
-    'Dermatology',
-    'Ophthalmology',
-    'ENT',
-    'Neurology',
-    'Psychiatry',
+    'सामान्य चिकित्सा',
+    'हृदय रोग विशेषज्ञ',
+    'हड्डी रोग विशेषज्ञ',
+    'स्त्री रोग विशेषज्ञ',
+    'बाल रोग विशेषज्ञ',
+    'त्वचा रोग विशेषज्ञ',
+    'नेत्र रोग विशेषज्ञ',
+    'कान, नाक और गला विशेषज्ञ',
+    'तंत्रिका विशेषज्ञ',
+    'मनोरोग विशेषज्ञ',
   ];
 
   return (
@@ -216,8 +212,8 @@ const Doctors: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Doctors</h1>
-          <p className="text-gray-600">Manage medical professionals</p>
+          <h1 className="text-2xl font-bold text-gray-900">चिकित्सक</h1>
+          <p className="text-gray-600">चिकित्सा पेशेवरों का प्रबंधन</p>
         </div>
         <button
           onClick={() => {
@@ -228,7 +224,7 @@ const Doctors: React.FC = () => {
           className="btn-primary flex items-center space-x-2"
         >
           <Plus className="h-4 w-4" />
-          <span>Add New Doctor</span>
+          <span>नया चिकित्सक जोड़ें</span>
         </button>
       </div>
 
@@ -240,7 +236,7 @@ const Doctors: React.FC = () => {
               <Stethoscope className="h-6 w-6 text-blue-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Total Doctors</p>
+              <p className="text-sm font-medium text-gray-600">कुल चिकित्सक</p>
               <p className="text-2xl font-bold text-gray-900">{doctors.length}</p>
             </div>
           </div>
@@ -252,9 +248,9 @@ const Doctors: React.FC = () => {
               <Award className="h-6 w-6 text-green-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Avg Experience</p>
+              <p className="text-sm font-medium text-gray-600">औसत अनुभव</p>
               <p className="text-2xl font-bold text-gray-900">
-                {Math.round(doctors.reduce((sum, doctor) => sum + doctor.experience, 0) / doctors.length)} years
+                {Math.round(doctors.reduce((sum, doctor) => sum + doctor.experience, 0) / doctors.length)} वर्ष
               </p>
             </div>
           </div>
@@ -266,7 +262,7 @@ const Doctors: React.FC = () => {
               <Stethoscope className="h-6 w-6 text-purple-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Specialties</p>
+              <p className="text-sm font-medium text-gray-600">विशेषज्ञताएं</p>
               <p className="text-2xl font-bold text-gray-900">
                 {new Set(doctors.map(doctor => doctor.specialty)).size}
               </p>
@@ -280,7 +276,7 @@ const Doctors: React.FC = () => {
               <Phone className="h-6 w-6 text-orange-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Available</p>
+              <p className="text-sm font-medium text-gray-600">उपलब्ध</p>
               <p className="text-2xl font-bold text-gray-900">
                 {doctors.filter(doctor => doctor.assignedCamps.length > 0).length}
               </p>
@@ -300,33 +296,33 @@ const Doctors: React.FC = () => {
             
             <div className="inline-block w-full max-w-lg p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
               <h3 className="text-lg font-medium text-gray-900 mb-4">
-                {editingDoctor ? 'Edit Doctor' : 'Add New Doctor'}
+                {editingDoctor ? 'चिकित्सक संपादित करें' : 'नया चिकित्सक जोड़ें'}
               </h3>
 
               <div className="space-y-4 max-h-96 overflow-y-auto">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Full Name
+                    पूरा नाम
                   </label>
                   <input
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="input-field"
-                    placeholder="Enter doctor's full name"
+                    placeholder="डॉक्टर का पूरा नाम दर्ज करें"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Specialty
+                    विशेषज्ञता
                   </label>
                   <select
                     value={formData.specialty}
                     onChange={(e) => setFormData({ ...formData, specialty: e.target.value })}
                     className="input-field"
                   >
-                    <option value="">Select specialty</option>
+                    <option value="">विशेषज्ञता चुनें</option>
                     {specialties.map(specialty => (
                       <option key={specialty} value={specialty}>{specialty}</option>
                     ))}
@@ -336,59 +332,59 @@ const Doctors: React.FC = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Phone
+                      फ़ोन नंबर
                     </label>
                     <input
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       className="input-field"
-                      placeholder="Enter phone number"
+                      placeholder="फ़ोन नंबर दर्ज करें"
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Experience (Years)
+                      अनुभव (वर्षों में)
                     </label>
                     <input
                       type="number"
                       value={formData.experience}
                       onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
                       className="input-field"
-                      placeholder="Years of experience"
+                      placeholder="कितने वर्षों का अनुभव"
                     />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Email
+                    ईमेल
                   </label>
                   <input
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="input-field"
-                    placeholder="Enter email address"
+                    placeholder="ईमेल पता दर्ज करें"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Qualification
+                    योग्यता
                   </label>
                   <input
                     type="text"
                     value={formData.qualification}
                     onChange={(e) => setFormData({ ...formData, qualification: e.target.value })}
                     className="input-field"
-                    placeholder="e.g., MBBS, MD"
+                    placeholder="जैसे: एमबीबीएस, एमडी"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Assign to Camps
+                    शिविर नियुक्ति
                   </label>
                   <div className="space-y-2 max-h-32 overflow-y-auto">
                     {mockCamps.filter(camp => camp.status === 'scheduled').map(camp => (
@@ -429,13 +425,13 @@ const Doctors: React.FC = () => {
                   }}
                   className="btn-secondary"
                 >
-                  Cancel
+                  रद्द करें
                 </button>
                 <button
                   onClick={editingDoctor ? handleEditDoctor : handleAddDoctor}
                   className="btn-primary"
                 >
-                  {editingDoctor ? 'Update Doctor' : 'Add Doctor'}
+                  {editingDoctor ? 'चिकित्सक अपडेट करें' : 'चिकित्सक जोड़ें'}
                 </button>
               </div>
             </div>
@@ -448,11 +444,11 @@ const Doctors: React.FC = () => {
         isOpen={showConfirmDialog}
         onClose={() => setShowConfirmDialog(false)}
         onConfirm={handleDeleteDoctor}
-        title="Delete Doctor"
-        message={`Are you sure you want to delete Dr. ${deletingDoctor?.name}? This action cannot be undone.`}
+        title="चिकित्सक हटाएं"
+        message={`क्या आप वाकई डॉ. ${deletingDoctor?.name} को हटाना चाहते हैं? इस कार्य को वापस नहीं किया जा सकता.`}
         type="danger"
-        confirmText="Delete"
-        cancelText="Cancel"
+        confirmText="हटाएं"
+        cancelText="रद्द करें"
       />
     </div>
   );

@@ -63,7 +63,11 @@ const Schemes: React.FC = () => {
     return (
       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusStyles[status as keyof typeof statusStyles]}`}>
         {getStatusIcon(status)}
-        <span className="ml-1">{status.charAt(0).toUpperCase() + status.slice(1)}</span>
+        <span className="ml-1">
+          {status === 'pending' ? 'लंबित' : 
+           status === 'approved' ? 'स्वीकृत' : 
+           status === 'rejected' ? 'अस्वीकृत' : status}
+        </span>
       </span>
     );
   };
@@ -78,7 +82,7 @@ const Schemes: React.FC = () => {
   const columns: TableColumn[] = [
     {
       key: 'applicantName',
-      label: 'Applicant',
+      label: 'आवेदक',
       render: (value, row) => (
         <div>
           <p className="font-medium text-gray-900">{value}</p>
@@ -88,7 +92,7 @@ const Schemes: React.FC = () => {
     },
     {
       key: 'schemeName',
-      label: 'Scheme',
+      label: 'योजना',
       render: (value) => (
         <div>
           <p className="font-medium text-gray-900">{value}</p>
@@ -97,24 +101,24 @@ const Schemes: React.FC = () => {
     },
     {
       key: 'amount',
-      label: 'Amount',
+      label: 'राशि',
       render: (value) => (
         <span className="font-medium text-gray-900">{formatCurrency(value)}</span>
       ),
     },
     {
       key: 'appliedDate',
-      label: 'Applied Date',
+      label: 'आवेदन तिथि',
       render: (value) => new Date(value).toLocaleDateString('en-IN'),
     },
     {
       key: 'status',
-      label: 'Status',
+      label: 'स्थिति',
       render: (value) => getStatusBadge(value),
     },
     {
       key: 'documents',
-      label: 'Documents',
+      label: 'दस्तावेज़',
       sortable: false,
       render: (value: string[]) => (
         <div className="space-y-1">
@@ -137,32 +141,48 @@ const Schemes: React.FC = () => {
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setViewingScheme(row)}
-            className="p-1 text-gray-400 hover:text-blue-600"
+            className="p-1 text-gray-400 hover:text-blue-600 relative group"
+            title="विवरण देखें"
           >
             <Eye className="h-4 w-4" />
+            <div className="absolute hidden group-hover:block bg-gray-800 text-white text-xs px-2 py-1 rounded -top-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+              विवरण देखें
+            </div>
           </button>
           {row.status === 'pending' && (
             <>
               <button
                 onClick={() => handleSchemeAction(row, 'approve')}
-                className="p-1 text-gray-400 hover:text-green-600"
+                className="p-1 text-gray-400 hover:text-green-600 relative group"
+                title="स्वीकार करें"
               >
                 <CheckCircle className="h-4 w-4" />
+                <div className="absolute hidden group-hover:block bg-gray-800 text-white text-xs px-2 py-1 rounded -top-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                  स्वीकार करें
+                </div>
               </button>
               <button
                 onClick={() => handleSchemeAction(row, 'reject')}
-                className="p-1 text-gray-400 hover:text-red-600"
+                className="p-1 text-gray-400 hover:text-red-600 relative group"
+                title="अस्वीकार करें"
               >
                 <XCircle className="h-4 w-4" />
+                <div className="absolute hidden group-hover:block bg-gray-800 text-white text-xs px-2 py-1 rounded -top-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                  अस्वीकार करें
+                </div>
               </button>
             </>
           )}
           {(row.status === 'approved' || row.status === 'rejected') && (
             <button
               onClick={() => console.log('Download certificate for', row.id)}
-              className="p-1 text-gray-400 hover:text-primary-600"
+              className="p-1 text-gray-400 hover:text-primary-600 relative group"
+              title="प्रमाणपत्र डाउनलोड करें"
             >
               <Download className="h-4 w-4" />
+              <div className="absolute hidden group-hover:block bg-gray-800 text-white text-xs px-2 py-1 rounded -top-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                प्रमाणपत्र डाउनलोड करें
+              </div>
             </button>
           )}
         </div>
@@ -171,9 +191,9 @@ const Schemes: React.FC = () => {
   ];
 
   const tabs = [
-    { id: 'pending', label: 'Pending', count: getSchemesByStatus('pending').length },
-    { id: 'approved', label: 'Approved', count: getSchemesByStatus('approved').length },
-    { id: 'rejected', label: 'Rejected', count: getSchemesByStatus('rejected').length },
+    { id: 'pending', label: 'लंबित', count: getSchemesByStatus('pending').length },
+    { id: 'approved', label: 'स्वीकृत', count: getSchemesByStatus('approved').length },
+    { id: 'rejected', label: 'अस्वीकृत', count: getSchemesByStatus('rejected').length },
   ];
 
   return (
@@ -181,12 +201,12 @@ const Schemes: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Schemes Management</h1>
-          <p className="text-gray-600">Review and manage scheme applications</p>
+          <h1 className="text-2xl font-bold text-gray-900">योजना प्रबंधन</h1>
+          <p className="text-gray-600">योजना आवेदनों की समीक्षा और प्रबंधन</p>
         </div>
         <button className="btn-primary flex items-center space-x-2">
           <Download className="h-4 w-4" />
-          <span>Export Report</span>
+          <span>रिपोर्ट निर्यात करें</span>
         </button>
       </div>
 
@@ -198,7 +218,7 @@ const Schemes: React.FC = () => {
               <Clock className="h-6 w-6 text-yellow-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Pending</p>
+              <p className="text-sm font-medium text-gray-600">लंबित</p>
               <p className="text-2xl font-bold text-gray-900">
                 {getSchemesByStatus('pending').length}
               </p>
@@ -212,7 +232,7 @@ const Schemes: React.FC = () => {
               <CheckCircle className="h-6 w-6 text-green-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Approved</p>
+              <p className="text-sm font-medium text-gray-600">स्वीकृत</p>
               <p className="text-2xl font-bold text-gray-900">
                 {getSchemesByStatus('approved').length}
               </p>
@@ -226,7 +246,7 @@ const Schemes: React.FC = () => {
               <XCircle className="h-6 w-6 text-red-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Rejected</p>
+              <p className="text-sm font-medium text-gray-600">अस्वीकृत</p>
               <p className="text-2xl font-bold text-gray-900">
                 {getSchemesByStatus('rejected').length}
               </p>
@@ -240,7 +260,7 @@ const Schemes: React.FC = () => {
               <FileText className="h-6 w-6 text-purple-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Total Amount</p>
+              <p className="text-sm font-medium text-gray-600">कुल राशि</p>
               <p className="text-2xl font-bold text-gray-900">
                 {formatCurrency(
                   getSchemesByStatus('approved').reduce((sum, scheme) => sum + scheme.amount, 0)
@@ -292,7 +312,7 @@ const Schemes: React.FC = () => {
             
             <div className="inline-block w-full max-w-lg p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-medium text-gray-900">Scheme Details</h3>
+                <h3 className="text-lg font-medium text-gray-900">योजना विवरण</h3>
                 <button
                   onClick={() => setViewingScheme(null)}
                   className="p-1 rounded-lg text-gray-400 hover:text-gray-600"
@@ -303,23 +323,23 @@ const Schemes: React.FC = () => {
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Applicant</label>
+                  <label className="block text-sm font-medium text-gray-700">आवेदक</label>
                   <p className="text-sm text-gray-900">{viewingScheme.applicantName}</p>
                   <p className="text-xs text-gray-500">{viewingScheme.employeeId}</p>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Scheme Name</label>
+                  <label className="block text-sm font-medium text-gray-700">योजना का नाम</label>
                   <p className="text-sm text-gray-900">{viewingScheme.schemeName}</p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Amount</label>
+                    <label className="block text-sm font-medium text-gray-700">राशि</label>
                     <p className="text-sm text-gray-900">{formatCurrency(viewingScheme.amount)}</p>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Applied Date</label>
+                    <label className="block text-sm font-medium text-gray-700">आवेदन तिथि</label>
                     <p className="text-sm text-gray-900">
                       {new Date(viewingScheme.appliedDate).toLocaleDateString('en-IN')}
                     </p>
@@ -327,18 +347,18 @@ const Schemes: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Status</label>
+                  <label className="block text-sm font-medium text-gray-700">स्थिति</label>
                   {getStatusBadge(viewingScheme.status)}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Documents</label>
+                  <label className="block text-sm font-medium text-gray-700">दस्तावेज़</label>
                   <div className="space-y-2">
                     {viewingScheme.documents.map((doc, index) => (
                       <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
                         <span className="text-sm text-gray-700">{doc}</span>
                         <button className="text-xs text-primary-600 hover:text-primary-700">
-                          View
+                          देखें
                         </button>
                       </div>
                     ))}
@@ -347,7 +367,7 @@ const Schemes: React.FC = () => {
 
                 {viewingScheme.reviewedBy && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Reviewed By</label>
+                    <label className="block text-sm font-medium text-gray-700">समीक्षक</label>
                     <p className="text-sm text-gray-900">{viewingScheme.reviewedBy}</p>
                     <p className="text-xs text-gray-500">
                       {viewingScheme.reviewDate && new Date(viewingScheme.reviewDate).toLocaleDateString('en-IN')}
@@ -357,7 +377,7 @@ const Schemes: React.FC = () => {
 
                 {viewingScheme.remarks && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Remarks</label>
+                    <label className="block text-sm font-medium text-gray-700">टिप्पणियाँ</label>
                     <p className="text-sm text-gray-900">{viewingScheme.remarks}</p>
                   </div>
                 )}
@@ -373,7 +393,7 @@ const Schemes: React.FC = () => {
                       }}
                       className="px-4 py-2 text-sm font-medium text-red-700 bg-red-100 rounded-lg hover:bg-red-200"
                     >
-                      Reject
+                      अस्वीकार करें
                     </button>
                     <button
                       onClick={() => {
@@ -382,7 +402,7 @@ const Schemes: React.FC = () => {
                       }}
                       className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700"
                     >
-                      Approve
+                      स्वीकार करें
                     </button>
                   </>
                 )}
@@ -390,7 +410,7 @@ const Schemes: React.FC = () => {
                   onClick={() => setViewingScheme(null)}
                   className="btn-secondary"
                 >
-                  Close
+                  बंद करें
                 </button>
               </div>
             </div>
@@ -403,11 +423,11 @@ const Schemes: React.FC = () => {
         isOpen={showConfirmDialog}
         onClose={() => setShowConfirmDialog(false)}
         onConfirm={confirmSchemeAction}
-        title={`${actionScheme?.action === 'approve' ? 'Approve' : 'Reject'} Scheme`}
-        message={`Are you sure you want to ${actionScheme?.action} the scheme application for ${actionScheme?.scheme.applicantName}?`}
+        title={`योजना ${actionScheme?.action === 'approve' ? 'स्वीकार' : 'अस्वीकार'} करें`}
+        message={`क्या आप निश्चित रूप से ${actionScheme?.scheme.applicantName} की योजना ${actionScheme?.action === 'approve' ? 'स्वीकार' : 'अस्वीकार'} करना चाहते हैं?`}
         type={actionScheme?.action === 'approve' ? 'success' : 'danger'}
-        confirmText={actionScheme?.action === 'approve' ? 'Approve' : 'Reject'}
-        cancelText="Cancel"
+        confirmText={actionScheme?.action === 'approve' ? 'स्वीकार करें' : 'अस्वीकार करें'}
+        cancelText="रद्द करें"
       />
     </div>
   );

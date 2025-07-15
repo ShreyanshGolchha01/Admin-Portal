@@ -75,9 +75,9 @@ export interface KPIData {
 }
 
 export interface ChartData {
-  month: string;
-  camps: number;
-  beneficiaries: number;
+  महीना: string;
+  शिविर: number;
+  लाभार्थी: number;
 }
 
 export interface ActivityLog {

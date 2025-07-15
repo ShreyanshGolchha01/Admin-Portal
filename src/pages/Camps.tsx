@@ -15,7 +15,8 @@ const Camps: React.FC = () => {
   const [formData, setFormData] = useState({
     location: '',
     date: '',
-    time: '',
+    timeFrom: '',
+    timeTo: '',
     address: '',
     coordinator: '',
     expectedBeneficiaries: '',
@@ -27,7 +28,7 @@ const Camps: React.FC = () => {
       id: Date.now().toString(),
       location: formData.location,
       date: formData.date,
-      time: formData.time,
+      time: `${formData.timeFrom} - ${formData.timeTo}`,
       address: formData.address,
       coordinator: formData.coordinator,
       expectedBeneficiaries: parseInt(formData.expectedBeneficiaries),
@@ -50,7 +51,7 @@ const Camps: React.FC = () => {
             ...camp,
             location: formData.location,
             date: formData.date,
-            time: formData.time,
+            time: `${formData.timeFrom} - ${formData.timeTo}`,
             address: formData.address,
             coordinator: formData.coordinator,
             expectedBeneficiaries: parseInt(formData.expectedBeneficiaries),
@@ -74,7 +75,8 @@ const Camps: React.FC = () => {
     setFormData({
       location: '',
       date: '',
-      time: '',
+      timeFrom: '',
+      timeTo: '',
       address: '',
       coordinator: '',
       expectedBeneficiaries: '',
@@ -87,7 +89,8 @@ const Camps: React.FC = () => {
     setFormData({
       location: camp.location,
       date: camp.date,
-      time: camp.time,
+      timeFrom: camp.time.split(' - ')[0] || '',
+      timeTo: camp.time.split(' - ')[1] || '',
       address: camp.address,
       coordinator: camp.coordinator,
       expectedBeneficiaries: camp.expectedBeneficiaries.toString(),
@@ -218,8 +221,8 @@ const Camps: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Health Camps</h1>
-          <p className="text-gray-600">Manage and schedule health camps</p>
+          <h1 className="text-2xl font-bold text-gray-900">स्वास्थ्य शिविर</h1>
+          <p className="text-gray-600">स्वास्थ्य शिविरों का प्रबंधन और अनुसूची</p>
         </div>
         <button
           onClick={() => {
@@ -340,13 +343,26 @@ const Camps: React.FC = () => {
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       समय
                     </label>
-                    <input
-                      type="text"
-                      value={formData.time}
-                      onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                      className="input-field"
-                      placeholder="सुबह 09:00 - शाम 05:00"
-                    />
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">से</label>
+                        <input
+                          type="time"
+                          value={formData.timeFrom}
+                          onChange={(e) => setFormData({ ...formData, timeFrom: e.target.value })}
+                          className="input-field"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">तक</label>
+                        <input
+                          type="time"
+                          value={formData.timeTo}
+                          onChange={(e) => setFormData({ ...formData, timeTo: e.target.value })}
+                          className="input-field"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
 

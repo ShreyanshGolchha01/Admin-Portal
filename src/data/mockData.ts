@@ -262,47 +262,47 @@ export const mockKPIData: KPIData = {
 
 // Mock Chart Data for last 6 months
 export const mockChartData: ChartData[] = [
-  { month: 'Feb', camps: 3, beneficiaries: 280 },
-  { month: 'Mar', camps: 4, beneficiaries: 350 },
-  { month: 'Apr', camps: 2, beneficiaries: 180 },
-  { month: 'May', camps: 5, beneficiaries: 420 },
-  { month: 'Jun', camps: 3, beneficiaries: 290 },
-  { month: 'Jul', camps: 1, beneficiaries: 95 }
+  { महीना: 'फर', शिविर: 3, लाभार्थी: 280 },
+  { महीना: 'मार्च', शिविर: 4, लाभार्थी: 350 },
+  { महीना: 'अप्रै', शिविर: 2, लाभार्थी: 180 },
+  { महीना: 'मई', शिविर: 5, लाभार्थी: 420 },
+  { महीना: 'जून', शिविर: 3, लाभार्थी: 290 },
+  { महीना: 'जुला', शिविर: 1, लाभार्थी: 95 }
 ];
 
 // Mock Activity Logs
 export const mockActivityLogs: ActivityLog[] = [
   {
     id: '1',
-    action: 'Camp Completed',
-    user: 'Dr. राजेश वर्मा',
+    action: 'शिविर पूर्ण',
+    user: 'डॉ. राजेश वर्मा',
     timestamp: '2025-07-15 03:30 PM',
     details: 'दुर्ग केंद्र में स्वास्थ्य शिविर पूर्ण'
   },
   {
     id: '2',
-    action: 'Scheme Approved',
+    action: 'योजना स्वीकृत',
     user: 'अमित शर्मा',
     timestamp: '2025-07-14 02:15 PM',
     details: 'सुनीता देवी की मातृत्व लाभ योजना अनुमोदित'
   },
   {
     id: '3',
-    action: 'New Doctor Added',
-    user: 'Admin',
+    action: 'नए डॉक्टर जोड़े गए',
+    user: 'व्यवस्थापक',
     timestamp: '2025-07-13 11:30 AM',
     details: 'डॉ. मीना पटेल को टीम में शामिल किया गया'
   },
   {
     id: '4',
-    action: 'Health Record Updated',
-    user: 'Dr. सुनीता सिंह',
+    action: 'स्वास्थ्य रिकॉर्ड अपडेट',
+    user: 'डॉ. सुनीता सिंह',
     timestamp: '2025-07-12 04:45 PM',
     details: 'प्रिया गुप्ता का स्वास्थ्य रिकॉर्ड अपडेट किया गया'
   },
   {
     id: '5',
-    action: 'Camp Scheduled',
+    action: 'शिविर निर्धारित समय',
     user: 'अमित शर्मा',
     timestamp: '2025-07-11 10:00 AM',
     details: 'बिलासपुर कार्यालय में नया शिविर निर्धारित'

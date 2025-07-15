@@ -99,7 +99,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         <div className="px-4 pb-4">
           <div className="text-center">
             <p className="text-xs text-gray-500">संचालित</p>
-            <p className="text-xs font-semibold text-gray-700">एसएसआईपीएमटी, रायपुर</p>
+            <p className="text-xs font-semibold text-gray-700">SSIPMT, RAIPUR</p>
             <p className="text-xs text-gray-500">संस्करण 1.0.0</p>
           </div>
         </div>
