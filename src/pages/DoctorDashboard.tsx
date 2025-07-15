@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  MapPin, 
+  MapPin,
   Users, 
   Heart, 
   Calendar, 
-  Activity, 
   Plus,
-  FileText,
-  TrendingUp,
   Clock,
   UserPlus
 } from 'lucide-react';
@@ -206,7 +203,7 @@ const DoctorDashboard: React.FC = () => {
           
           <button 
             onClick={() => navigate('/doctor/health-records')}
-            className="flex items-center justify-center p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-orange-500 hover:bg-orange-50 transition-colors duration-200"
+            className="flex items-center justify-center p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors duration-200"
           >
             <div className="text-center">
               <Heart className="h-8 w-8 text-gray-400 mx-auto mb-2" />
@@ -216,7 +213,7 @@ const DoctorDashboard: React.FC = () => {
           
           <button 
             onClick={() => navigate('/doctor/family-health')}
-            className="flex items-center justify-center p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-orange-500 hover:bg-orange-50 transition-colors duration-200"
+            className="flex items-center justify-center p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors duration-200"
           >
             <div className="text-center">
               <UserPlus className="h-8 w-8 text-gray-400 mx-auto mb-2" />
@@ -232,7 +229,6 @@ const DoctorDashboard: React.FC = () => {
         <div className="lg:col-span-2 card border border-gray-400">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-gray-900">आज की गतिविधि</h3>
-            <Activity className="h-5 w-5 text-gray-400" />
           </div>
           <div className="space-y-4">
             {recentActivities.map((activity) => (
@@ -256,7 +252,10 @@ const DoctorDashboard: React.FC = () => {
             ))}
           </div>
           <div className="mt-4 pt-4 border-t border-gray-200">
-            <button className="text-sm text-orange-600 hover:text-orange-700 font-medium">
+            <button 
+              onClick={() => navigate('/doctor/activities')}
+              className="text-sm text-orange-600 hover:text-orange-700 font-medium"
+            >
               सभी गतिविधि देखें →
             </button>
           </div>
@@ -266,7 +265,6 @@ const DoctorDashboard: React.FC = () => {
         <div className="card border border-gray-400">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-gray-900">आगामी शिविर</h3>
-            <MapPin className="h-5 w-5 text-gray-400" />
           </div>
           <div className="space-y-4">
             {upcomingCamps.map((camp) => (
@@ -307,33 +305,6 @@ const DoctorDashboard: React.FC = () => {
             >
               + नया शिविर जोड़ें
             </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Today's Summary */}
-      <div className="card border border-gray-400">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">आज का सारांश</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="text-center p-4 bg-blue-50 rounded-lg">
-            <FileText className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-            <p className="text-2xl font-bold text-blue-600">15</p>
-            <p className="text-sm text-gray-600">नए रिकॉर्ड बनाए</p>
-          </div>
-          <div className="text-center p-4 bg-orange-50 rounded-lg">
-            <Heart className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-            <p className="text-2xl font-bold text-orange-600">32</p>
-            <p className="text-sm text-gray-600">स्वास्थ्य जांच पूर्ण</p>
-          </div>
-          <div className="text-center p-4 bg-orange-50 rounded-lg">
-            <TrendingUp className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-            <p className="text-2xl font-bold text-orange-600">12</p>
-            <p className="text-sm text-gray-600">फॉलो-अप बुक किए</p>
-          </div>
-          <div className="text-center p-4 bg-purple-50 rounded-lg">
-            <Users className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-            <p className="text-2xl font-bold text-purple-600">8</p>
-            <p className="text-sm text-gray-600">पारिवारिक सदस्य जोड़े</p>
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
+import UnifiedLogin from '../pages/UnifiedLogin';
 import Login from '../pages/Login';
 import Dashboard from '../pages/Dashboard';
 import Camps from '../pages/Camps';
@@ -15,6 +16,10 @@ import DoctorLogin from '../pages/DoctorLogin';
 import DoctorDashboard from '../pages/DoctorDashboard';
 import NewCamp from '../pages/NewCamp';
 import PatientsManagement from '../pages/PatientsManagement';
+import DoctorActivities from '../pages/DoctorActivities';
+import HealthRecords from '../pages/HealthRecords';
+import FamilyHealth from '../pages/FamilyHealth';
+import DoctorProfile from '../pages/DoctorProfile';
 import DoctorLayout from '../layouts/DoctorLayout';
 
 // Protected Route Component
@@ -33,7 +38,7 @@ const DoctorProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ childre
   const isDoctorAuthenticated = localStorage.getItem('isDoctorAuthenticated') === 'true';
   
   if (!isDoctorAuthenticated) {
-    return <Navigate to="/doctor/login" replace />;
+    return <Navigate to="/" replace />;
   }
   
   return <>{children}</>;
@@ -43,6 +48,10 @@ const DoctorProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ childre
 export const router = createBrowserRouter([
   {
     path: '/',
+    element: <UnifiedLogin />,
+  },
+  {
+    path: '/old-login',
     element: <Login />,
   },
   {
@@ -89,7 +98,7 @@ export const router = createBrowserRouter([
   },
   // Doctor Portal Routes
   {
-    path: '/doctor/login',
+    path: '/doctor/old-login',
     element: <DoctorLogin />,
   },
   {
@@ -118,16 +127,20 @@ export const router = createBrowserRouter([
         element: <PatientsManagement />,
       },
       {
+        path: 'activities',
+        element: <DoctorActivities />,
+      },
+      {
         path: 'health-records',
-        element: <div className="p-6 text-center text-gray-500">स्वास्थ्य रिकॉर्ड पेज जल्द आ रहा है...</div>,
+        element: <HealthRecords />,
       },
       {
         path: 'family-health',
-        element: <div className="p-6 text-center text-gray-500">पारिवारिक स्वास्थ्य पेज जल्द आ रहा है...</div>,
+        element: <FamilyHealth />,
       },
       {
         path: 'profile',
-        element: <div className="p-6 text-center text-gray-500">प्रोफाइल पेज जल्द आ रहा है...</div>,
+        element: <DoctorProfile />,
       },
     ],
   },

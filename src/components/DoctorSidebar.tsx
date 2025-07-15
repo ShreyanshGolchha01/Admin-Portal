@@ -8,7 +8,8 @@ import {
   UserPlus,
   LogOut,
   Stethoscope,
-  User
+  User,
+  Activity
 } from 'lucide-react';
 
 interface DoctorSidebarProps {
@@ -23,6 +24,7 @@ const DoctorSidebar: React.FC<DoctorSidebarProps> = ({ isOpen, onClose }) => {
     { icon: Users, label: 'मरीज़ प्रबंधन', path: '/doctor/patients' },
     { icon: Heart, label: 'स्वास्थ्य रिकॉर्ड', path: '/doctor/health-records' },
     { icon: UserPlus, label: 'पारिवारिक स्वास्थ्य', path: '/doctor/family-health' },
+    { icon: Activity, label: 'सभी गतिविधि', path: '/doctor/activities' },
     { icon: User, label: 'प्रोफाइल', path: '/doctor/profile' },
   ];
 

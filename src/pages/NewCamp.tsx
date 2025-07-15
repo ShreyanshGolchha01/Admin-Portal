@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapPin, Calendar, Clock, Users, ArrowLeft, Save } from 'lucide-react';
+import { MapPin, Users, ArrowLeft, Save } from 'lucide-react';
 
 const NewCamp: React.FC = () => {
   const navigate = useNavigate();
@@ -9,7 +9,8 @@ const NewCamp: React.FC = () => {
     location: '',
     address: '',
     date: '',
-    time: '',
+    startTime: '',
+    endTime: '',
     expectedPatients: '',
     description: '',
     services: [] as string[]
@@ -68,8 +69,14 @@ const NewCamp: React.FC = () => {
     if (!formData.date) {
       newErrors.date = 'तारीख आवश्यक है';
     }
-    if (!formData.time) {
-      newErrors.time = 'समय आवश्यक है';
+    if (!formData.startTime) {
+      newErrors.startTime = 'शुरुआती समय आवश्यक है';
+    }
+    if (!formData.endTime) {
+      newErrors.endTime = 'समाप्ति समय आवश्यक है';
+    }
+    if (formData.startTime && formData.endTime && formData.startTime >= formData.endTime) {
+      newErrors.endTime = 'समाप्ति समय शुरुआती समय से बाद होना चाहिए';
     }
     if (!formData.expectedPatients || parseInt(formData.expectedPatients) < 1) {
       newErrors.expectedPatients = 'अपेक्षित मरीजों की संख्या आवश्यक है';
@@ -193,45 +200,56 @@ const NewCamp: React.FC = () => {
           {/* Date and Time */}
           <div>
             <h3 className="text-lg font-semibold text-gray-900 mb-4">दिनांक और समय</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div>
                 <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-2">
                   तारीख *
                 </label>
-                <div className="relative">
-                  <input
-                    type="date"
-                    id="date"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleInputChange}
-                    min={new Date().toISOString().split('T')[0]}
-                    className={`input-field ${errors.date ? 'border-red-500' : ''}`}
-                  />
-                  <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                </div>
+                <input
+                  type="date"
+                  id="date"
+                  name="date"
+                  value={formData.date}
+                  onChange={handleInputChange}
+                  min={new Date().toISOString().split('T')[0]}
+                  className={`input-field ${errors.date ? 'border-red-500' : ''}`}
+                />
                 {errors.date && (
                   <p className="mt-1 text-sm text-red-600">{errors.date}</p>
                 )}
               </div>
 
               <div>
-                <label htmlFor="time" className="block text-sm font-medium text-gray-700 mb-2">
-                  समय *
+                <label htmlFor="startTime" className="block text-sm font-medium text-gray-700 mb-2">
+                  शुरुआती समय *
                 </label>
-                <div className="relative">
-                  <input
-                    type="time"
-                    id="time"
-                    name="time"
-                    value={formData.time}
-                    onChange={handleInputChange}
-                    className={`input-field ${errors.time ? 'border-red-500' : ''}`}
-                  />
-                  <Clock className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                </div>
-                {errors.time && (
-                  <p className="mt-1 text-sm text-red-600">{errors.time}</p>
+                <input
+                  type="time"
+                  id="startTime"
+                  name="startTime"
+                  value={formData.startTime}
+                  onChange={handleInputChange}
+                  className={`input-field ${errors.startTime ? 'border-red-500' : ''}`}
+                />
+                {errors.startTime && (
+                  <p className="mt-1 text-sm text-red-600">{errors.startTime}</p>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="endTime" className="block text-sm font-medium text-gray-700 mb-2">
+                  समाप्ति समय *
+                </label>
+                <input
+                  type="time"
+                  id="endTime"
+                  name="endTime"
+                  value={formData.endTime}
+                  onChange={handleInputChange}
+                  className={`input-field ${errors.endTime ? 'border-red-500' : ''}`}
+                />
+                {errors.endTime && (
+                  <p className="mt-1 text-sm text-red-600">{errors.endTime}</p>
                 )}
               </div>
 
@@ -247,10 +265,10 @@ const NewCamp: React.FC = () => {
                     value={formData.expectedPatients}
                     onChange={handleInputChange}
                     min="1"
-                    className={`input-field ${errors.expectedPatients ? 'border-red-500' : ''}`}
+                    className={`input-field pr-10 ${errors.expectedPatients ? 'border-red-500' : ''}`}
                     placeholder="50"
                   />
-                  <Users className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Users className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
                 </div>
                 {errors.expectedPatients && (
                   <p className="mt-1 text-sm text-red-600">{errors.expectedPatients}</p>

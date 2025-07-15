@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, Bell, Search, User, LogOut } from 'lucide-react';
+import { Menu, Search, User, LogOut } from 'lucide-react';
 
 interface DoctorHeaderProps {
   title: string;
@@ -55,12 +55,6 @@ const DoctorHeader: React.FC<DoctorHeaderProps> = ({ title, onMenuClick }) => {
               className="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
             />
           </div>
-
-          {/* Notifications */}
-          <button className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
-            <Bell className="h-5 w-5" />
-            <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full"></span>
-          </button>
 
           {/* User menu */}
           <div className="relative">
