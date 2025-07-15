@@ -10,12 +10,30 @@ import Reports from '../pages/Reports';
 import Activities from '../pages/Activities';
 import AdminLayout from '../layouts/AdminLayout';
 
+// Doctor Portal imports
+import DoctorLogin from '../pages/DoctorLogin';
+import DoctorDashboard from '../pages/DoctorDashboard';
+import NewCamp from '../pages/NewCamp';
+import PatientsManagement from '../pages/PatientsManagement';
+import DoctorLayout from '../layouts/DoctorLayout';
+
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
   
   if (!isAuthenticated) {
     return <Navigate to="/" replace />;
+  }
+  
+  return <>{children}</>;
+};
+
+// Doctor Protected Route Component
+const DoctorProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const isDoctorAuthenticated = localStorage.getItem('isDoctorAuthenticated') === 'true';
+  
+  if (!isDoctorAuthenticated) {
+    return <Navigate to="/doctor/login" replace />;
   }
   
   return <>{children}</>;
@@ -66,6 +84,50 @@ export const router = createBrowserRouter([
       {
         path: 'activities',
         element: <Activities />,
+      },
+    ],
+  },
+  // Doctor Portal Routes
+  {
+    path: '/doctor/login',
+    element: <DoctorLogin />,
+  },
+  {
+    path: '/doctor',
+    element: (
+      <DoctorProtectedRoute>
+        <DoctorLayout />
+      </DoctorProtectedRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <Navigate to="/doctor/dashboard" replace />,
+      },
+      {
+        path: 'dashboard',
+        element: <DoctorDashboard />,
+      },
+      // Placeholder routes - will create these pages next
+      {
+        path: 'new-camp',
+        element: <NewCamp />,
+      },
+      {
+        path: 'patients',
+        element: <PatientsManagement />,
+      },
+      {
+        path: 'health-records',
+        element: <div className="p-6 text-center text-gray-500">स्वास्थ्य रिकॉर्ड पेज जल्द आ रहा है...</div>,
+      },
+      {
+        path: 'family-health',
+        element: <div className="p-6 text-center text-gray-500">पारिवारिक स्वास्थ्य पेज जल्द आ रहा है...</div>,
+      },
+      {
+        path: 'profile',
+        element: <div className="p-6 text-center text-gray-500">प्रोफाइल पेज जल्द आ रहा है...</div>,
       },
     ],
   },
