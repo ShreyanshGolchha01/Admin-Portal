@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { TrendingUp, Users, MapPin, FileText, Calendar, Activity } from 'lucide-react';
 import { mockKPIData, mockChartData, mockActivityLogs } from '../data/mockData';
 
 const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
+  const [showAllActivities, setShowAllActivities] = useState(false);
+  
   const kpiCards = [
     {
       title: 'कुल शिविर',
@@ -69,7 +73,7 @@ const Dashboard: React.FC = () => {
         {kpiCards.map((card, index) => {
           const IconComponent = card.icon;
           return (
-            <div key={index} className="card">
+            <div key={index} className="card border border-gray-400">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600 mb-1">{card.title}</p>
@@ -97,18 +101,18 @@ const Dashboard: React.FC = () => {
       {/* Chart and Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Chart */}
-        <div className="lg:col-span-2 card">
+        <div className="lg:col-span-2 card border border-gray-400">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-gray-900">
               शिविर बनाम लाभार्थी (पिछले 6 महीने)
             </h3>
             <div className="flex items-center space-x-4 text-sm">
               <div className="flex items-center">
-                <div className="w-3 h-3 bg-primary-500 rounded-full mr-2"></div>
+                <div className="w-3 h-3 bg-blue-700 rounded-full mr-2"></div>
                 <span className="text-gray-600">शिविर</span>
               </div>
               <div className="flex items-center">
-                <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                <div className="w-3 h-3 bg-green-700 rounded-full mr-2"></div>
                 <span className="text-gray-600">लाभार्थी</span>
               </div>
             </div>
@@ -140,18 +144,18 @@ const Dashboard: React.FC = () => {
                 <Line
                   type="monotone"
                   dataKey="शिविर"
-                  stroke="#0E7DFF"
+                  stroke="#1d4ed8"
                   strokeWidth={3}
-                  dot={{ fill: '#0E7DFF', strokeWidth: 2, r: 4 }}
-                  activeDot={{ r: 6, stroke: '#0E7DFF', strokeWidth: 2 }}
+                  dot={{ fill: '#1d4ed8', strokeWidth: 2, r: 4 }}
+                  activeDot={{ r: 6, stroke: '#1d4ed8', strokeWidth: 2 }}
                 />
                 <Line
                   type="monotone"
                   dataKey="लाभार्थी"
-                  stroke="#10b981"
+                  stroke="#047857"
                   strokeWidth={3}
-                  dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}
-                  activeDot={{ r: 6, stroke: '#10b981', strokeWidth: 2 }}
+                  dot={{ fill: '#047857', strokeWidth: 2, r: 4 }}
+                  activeDot={{ r: 6, stroke: '#047857', strokeWidth: 2 }}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -159,13 +163,13 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Recent Activity */}
-        <div className="card">
+        <div className="card border border-gray-400">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-gray-900">हाल की गतिविधि</h3>
             <Activity className="h-5 w-5 text-gray-400" />
           </div>
           <div className="space-y-4">
-            {mockActivityLogs.slice(0, 5).map((log) => (
+            {(showAllActivities ? mockActivityLogs : mockActivityLogs.slice(0, 5)).map((log) => (
               <div key={log.id} className="flex items-start space-x-3">
                 <div className="flex-shrink-0">
                   <div className="w-2 h-2 bg-primary-500 rounded-full mt-2"></div>
@@ -179,32 +183,50 @@ const Dashboard: React.FC = () => {
             ))}
           </div>
           <div className="mt-4 pt-4 border-t border-gray-200">
-            <button className="text-sm text-primary-600 hover:text-primary-700 font-medium">
-              सभी गतिविधि देखें →
+            <button 
+              onClick={() => {
+                if (showAllActivities) {
+                  setShowAllActivities(false);
+                } else {
+                  navigate('/admin/activities');
+                }
+              }}
+              className="text-sm text-primary-600 hover:text-primary-700 font-medium"
+            >
+              {showAllActivities ? 'कम गतिविधि दिखाएं' : 'सभी गतिविधि देखें'} →
             </button>
           </div>
         </div>
       </div>
 
       {/* Quick Actions */}
-      <div className="card">
+      <div className="card border border-gray-400">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">त्वरित कार्य</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button className="flex items-center justify-center p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors duration-200">
+          <button 
+            onClick={() => navigate('/admin/camps')}
+            className="flex items-center justify-center p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors duration-200"
+          >
             <div className="text-center">
               <MapPin className="h-8 w-8 text-gray-400 mx-auto mb-2" />
               <p className="text-sm font-medium text-gray-700">नया शिविर तय करें</p>
             </div>
           </button>
           
-          <button className="flex items-center justify-center p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors duration-200">
+          <button 
+            onClick={() => navigate('/admin/doctors')}
+            className="flex items-center justify-center p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors duration-200"
+          >
             <div className="text-center">
               <Users className="h-8 w-8 text-gray-400 mx-auto mb-2" />
               <p className="text-sm font-medium text-gray-700">नया डॉक्टर जोड़ें</p>
             </div>
           </button>
           
-          <button className="flex items-center justify-center p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors duration-200">
+          <button 
+            onClick={() => navigate('/admin/schemes')}
+            className="flex items-center justify-center p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors duration-200"
+          >
             <div className="text-center">
               <FileText className="h-8 w-8 text-gray-400 mx-auto mb-2" />
               <p className="text-sm font-medium text-gray-700">योजनाओं की समीक्षा करें</p>

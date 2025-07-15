@@ -54,63 +54,82 @@ const Login: React.FC = () => {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left Section */}
-      <div className="hidden lg:flex lg:w-1/2 bg-blue-600 flex-col justify-between p-12">
-        <div className="flex-grow flex flex-col items-center justify-center">
-          <h1 className="text-6xl font-bold text-white mb-6">छाँव</h1>
-          <p className="text-2xl text-white/90 text-center">स्वास्थ्य शिविर प्रबंधन प्रणाली</p>
+      {/* Left Section - छांव योजना Details */}
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-600 to-primary-800 flex-col justify-center items-center p-12 relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 w-20 h-20 border-2 border-white rounded-full"></div>
+          <div className="absolute bottom-20 right-20 w-16 h-16 border-2 border-white rounded-full"></div>
+          <div className="absolute top-1/3 right-10 w-12 h-12 border border-white rounded-full"></div>
+          <div className="absolute bottom-1/3 left-20 w-8 h-8 border border-white rounded-full"></div>
         </div>
-        
+
+        {/* Main Title - Centered */}
+        <div className="text-center">
+          <h1 className="text-6xl font-bold text-white mb-6 animate-fade-in">छांव योजना</h1>
+          <p className="text-xl text-white/90 max-w-lg leading-relaxed mx-auto">
+            स्वास्थ्य शिविर प्रबंधन प्रणाली में आपका स्वागत है।<br />
+            बेहतर स्वास्थ्य सेवा के लिए एक कदम आगे।
+          </p>
+        </div>
       </div>
 
-      {/* Right Section */}
-      <div className="w-full lg:w-1/2 flex flex-col min-h-screen">
-        <div className="flex-grow flex items-center justify-center p-8 bg-gray-50">
+      {/* Right Section - Login Form */}
+      <div className="w-full lg:w-1/2 flex flex-col min-h-screen bg-gray-50">
+        <div className="flex-grow flex items-center justify-center p-6">
           <div className="w-full max-w-md">
-            {/* Logo and Header (only visible on mobile) */}
-            <div className="text-center lg:hidden mb-8">
+            {/* Logo and Header (mobile only) */}
+            <div className="text-center lg:hidden mb-6">
               <div className="flex justify-center">
                 <div className="flex items-center space-x-2">
-                  <Heart className="h-12 w-12 text-blue-600" />
+                  <Heart className="h-10 w-10 text-primary-500" />
                   <div>
-                    <h1 className="text-3xl font-bold text-gray-800">छाँव</h1>
-                    <p className="text-sm text-gray-600">स्वास्थ्य शिविर प्रबंधन</p>
+                    <h1 className="text-2xl font-bold text-gray-800">छांव</h1>
+                    <p className="text-xs text-gray-600">स्वास्थ्य शिविर प्रबंधन</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="text-center mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900">
+            {/* Login Header */}
+            <div className="text-center mb-6">
+              <h2 className="text-xl font-semibold text-gray-900">
                 एडमिन लॉगिन
               </h2>
-              <p className="mt-2 text-sm text-gray-600">
-                कृपया अपनी जानकारी दर्ज करें
+              <p className="mt-1 text-sm text-gray-600">
+                प्रबंधन पैनल में प्रवेश के लिए अपनी जानकारी दर्ज करें
               </p>
             </div>
 
             {/* Login Form */}
-            <div className="bg-white rounded-xl shadow-sm p-8">
-              <form className="space-y-6" onSubmit={handleSubmit}>
+            <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-200">
+              <form className="space-y-4" onSubmit={handleSubmit}>
+                {/* Email */}
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    यूज़रनेम / मोबाइल नंबर
+                    ईमेल पता / यूज़रनेम
                   </label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className={`input-field ${errors.email ? 'border-red-500 focus:ring-red-500' : ''}`}
-                    placeholder="अपना यूज़रनेम दर्ज करें"
-                  />
+                  <div className="relative">
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className={`input-field pl-10 ${errors.email ? 'border-red-500 focus:ring-red-500' : ''}`}
+                      placeholder="अपना ईमेल दर्ज करें"
+                    />
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <span className="text-gray-400 text-sm">👤</span>
+                    </div>
+                  </div>
                   {errors.email && (
                     <p className="mt-1 text-sm text-red-600">{errors.email}</p>
                   )}
                 </div>
 
+                {/* Password */}
                 <div>
                   <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
                     पासवर्ड
@@ -123,9 +142,12 @@ const Login: React.FC = () => {
                       autoComplete="current-password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className={`input-field pr-10 ${errors.password ? 'border-red-500 focus:ring-red-500' : ''}`}
+                      className={`input-field pl-10 pr-10 ${errors.password ? 'border-red-500 focus:ring-red-500' : ''}`}
                       placeholder="अपना पासवर्ड लिखें"
                     />
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <span className="text-gray-400 text-sm">🔒</span>
+                    </div>
                     <button
                       type="button"
                       className="absolute inset-y-0 right-0 pr-3 flex items-center"
@@ -143,41 +165,54 @@ const Login: React.FC = () => {
                   )}
                 </div>
 
-                <div className="pt-2">
-                  <button
-                    type="submit"
-                    disabled={isLoading}
-                    className={`w-full bg-blue-600 text-white rounded-lg py-3 font-medium hover:bg-blue-700 transition-colors ${
-                      isLoading ? 'opacity-75 cursor-not-allowed' : ''
-                    }`}
-                  >
-                    {isLoading ? (
-                      <div className="flex items-center justify-center">
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                        लॉगिन हो रहा है...
-                      </div>
-                    ) : (
-                      'लॉगिन करें'
-                    )}
-                  </button>
+                {/* Remember & Forgot */}
+                <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center">
+                    <input
+                      id="remember-me"
+                      name="remember-me"
+                      type="checkbox"
+                      className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                    />
+                    <label htmlFor="remember-me" className="ml-2 text-gray-600">
+                      मुझे याद रखें
+                    </label>
+                  </div>
+                  <a href="#" className="text-primary-600 hover:text-primary-500 font-medium">
+                    पासवर्ड भूल गए?
+                  </a>
                 </div>
 
-                {/* Demo Credentials */}
-                <div className="text-center">
-                  <p className="text-xs text-gray-500">
-                    डेमो के लिए कोई भी ईमेल और पासवर्ड काम करेगा
-                  </p>
-                </div>
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className={`w-full bg-primary-600 hover:bg-primary-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 ${
+                    isLoading ? 'opacity-75 cursor-not-allowed' : ''
+                  }`}
+                >
+                  {isLoading ? (
+                    <div className="flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+                      लॉगिन हो रहा है...
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center">
+                      <span className="mr-2">🔐</span>
+                      लॉगिन करें
+                    </div>
+                  )}
+                </button>
               </form>
             </div>
-          </div>
-        </div>
 
-        {/* Footer */}
-        <div className="p-8 text-center">
-          <p className="text-xs text-gray-500">संचालित</p>
-          <p className="text-sm font-semibold text-gray-700">SSIPMT, RAIPUR</p>
-          <p className="text-xs text-gray-500">स्वास्थ्य एवं परिवार कल्याण मंत्रालय, छत्तीसगढ सरकार</p>
+            {/* Security Note */}
+            <div className="text-center mt-4">
+              <p className="text-xs text-gray-500">
+                🔒 यह एक सुरक्षित सरकारी पोर्टल है
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

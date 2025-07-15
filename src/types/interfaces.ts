@@ -86,6 +86,7 @@ export interface ActivityLog {
   user: string;
   timestamp: string;
   details: string;
+  type: 'camp' | 'user' | 'doctor' | 'general';
 }
 
 export interface PaginationProps {

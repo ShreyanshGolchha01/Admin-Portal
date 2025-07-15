@@ -95,12 +95,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        {/* Footer */}
-        <div className="px-4 pb-4">
+        {/* Powered By Section - Bottom */}
+        <div className="p-4 border-t border-gray-100">
           <div className="text-center">
-            <p className="text-xs text-gray-500">संचालित</p>
-            <p className="text-xs font-semibold text-gray-700">SSIPMT, RAIPUR</p>
-            <p className="text-xs text-gray-500">संस्करण 1.0.0</p>
+            <p className="text-xs text-gray-500 mb-1">संचालित</p>
+            <p className="text-xs font-semibold text-primary-600">SSIPMT, Raipur</p>
+            <p className="text-xs text-gray-400 mt-1">स्वास्थ्य एवं परिवार कल्याण मंत्रालय</p>
+            <p className="text-xs text-gray-400">संस्करण 1.0.0</p>
           </div>
         </div>
       </div>

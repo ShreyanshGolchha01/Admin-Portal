@@ -22,6 +22,8 @@ const AdminLayout: React.FC = () => {
         return 'योजनाएं';
       case '/admin/reports':
         return 'रिपोर्ट';
+      case '/admin/activities':
+        return 'गतिविधि';
       default:
         return 'प्रबंधन पैनल';
     }

@@ -7,6 +7,7 @@ import Doctors from '../pages/Doctors';
 import Users from '../pages/Users';
 import Schemes from '../pages/Schemes';
 import Reports from '../pages/Reports';
+import Activities from '../pages/Activities';
 import AdminLayout from '../layouts/AdminLayout';
 
 // Protected Route Component
@@ -61,6 +62,10 @@ export const router = createBrowserRouter([
       {
         path: 'reports',
         element: <Reports />,
+      },
+      {
+        path: 'activities',
+        element: <Activities />,
       },
     ],
   },
